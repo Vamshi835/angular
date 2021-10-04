@@ -1,0 +1,10 @@
+.preview_image{
+    height: 150px;
+    margin: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+    width: 100%;
+    border-radius: inherit;
+}
