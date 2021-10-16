@@ -1,11 +1,9 @@
-<app-header></app-header>
+<app-header (fetaureSelected) = "onNavigate($event)"></app-header>
 <div class="container mt-3">
   <div class="row">
     <div class="col-md-12 col-sm-12">
-      <app-recipes></app-recipes>
-    </div>
-    <div class="col-md-12 col-sm-12 mt-3">
-      <app-shoppings></app-shoppings>
+      <app-recipes *ngIf = "loadFeature === 'reciepe'"></app-recipes>
+      <app-shoppings *ngIf = "loadFeature !== 'reciepe'"></app-shoppings>
     </div>
   </div>
 </div>

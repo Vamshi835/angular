@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-xs-12">
-        <app-shopping-edit></app-shopping-edit>
+        <app-shopping-edit (addIngredientEmitter) = "onAddIngredientEmitter($event)"></app-shopping-edit>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <app-shopping-list></app-shopping-list>
+        <app-shopping-list [ingredients]="ingredients"></app-shopping-list>
     </div>
 </div>

@@ -1,11 +1,3 @@
 <div class="row">
-<div *ngFor="let s of recipes" class="col-md-4 p-1">
-        <div class="card">
-            <img src="{{s.image}}" class="card-img-top img-responsive img-fluid preview_image" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{s.name}}</h5>
-                <p class="card-text">{{s.description}}</p>
-            </div>
-        </div>
-    </div>
+    <app-recipe-item *ngFor = "let ele of recipes" [recipe] = "ele" (onRecipeCardSelected)="onRecipeCardSelected(ele)"></app-recipe-item>
 </div>
