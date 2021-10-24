@@ -3,5 +3,17 @@
     <div class="card-body">
         <h5 class="card-title">{{recipe.name}}</h5>
         <p class="card-text">{{recipe.description}}</p>
+
+        <div class="dropdown" appDropdown>
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Manage Recipe
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">To Shopping List</a></li>
+                <li><a class="dropdown-item" href="#">Edit Recipe</a></li>
+                <li><a class="dropdown-item" href="#">Delete Recipe</a></li>
+            </ul>
+        </div>
     </div>
 </div>
