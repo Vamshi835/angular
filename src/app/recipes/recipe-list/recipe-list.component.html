@@ -1,3 +1,3 @@
 <div class="row">
-    <app-recipe-item *ngFor = "let ele of recipes" [recipe] = "ele" (onRecipeCardSelected)="onRecipeCardSelected(ele)"></app-recipe-item>
+    <app-recipe-item *ngFor = "let ele of recipes; let i = index" [id] = "i" ></app-recipe-item>
 </div>
