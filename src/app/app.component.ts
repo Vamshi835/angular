@@ -9,8 +9,4 @@ export class AppComponent {
   title = 'food-cart-project';
   loadFeature = 'reciepe';
 
-  onNavigate(feature : string) {
-
-    this.loadFeature = feature;
-  }
 }

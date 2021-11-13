@@ -9,8 +9,7 @@ import { RecipeService } from "../../recipe.service";
 })
 export class RecipeItemComponent implements OnInit {
 
-  @Input()
-  id: any;
+  @Input() id: any;
   public recipe: any;
 
   constructor(private recipeService: RecipeService) { }
@@ -19,9 +18,5 @@ export class RecipeItemComponent implements OnInit {
     if (this.id != undefined) {
       this.recipe = this.recipeService.getRecipes()[this.id];
     }
-  }
-
-  recipeCardSelected() {
-    this.recipeService.recipeEmitter.emit(this.recipe);
   }
 }
