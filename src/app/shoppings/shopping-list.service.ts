@@ -13,6 +13,7 @@ export class ShoppingListService {
   ];
 
   public shoppingListChanged = new Subject<Ingredient[]>();
+  public shoppingEditIndex = new Subject<number>();
 
   constructor() { }
 
@@ -23,6 +24,10 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
+  public getIngredient(id:number) {
+    return this.ingredients[id];
+  }
+
   addIngredient(data: Ingredient) {
     this.ingredients.push(data);
     this.shoppingListChanged.next(this.ingredients.slice());
@@ -30,6 +35,16 @@ export class ShoppingListService {
 
   addIngredients(ingredientList : Ingredient[]) {
     this.ingredients.push(...ingredientList);
+    this.shoppingListChanged.next(this.ingredients.slice());
+  }
+
+  updateIngredients(id:number,ingredient: Ingredient) {
+    this.ingredients[id] = ingredient;
+    this.shoppingListChanged.next(this.ingredients.slice());
+  }
+
+  deleteIngredients(id: number) {
+    this.ingredients.splice(id, 1);
     this.shoppingListChanged.next(this.ingredients.slice());
   }
 
