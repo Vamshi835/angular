@@ -1,1 +1,59 @@
-<p>recipe-edit works!</p>
+<div class="row">
+    <div class="col-xs-12">
+        <form [formGroup]="recipeFormGroup" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-success m-1">Save</button>
+                    <button class="btn btn-danger m-1">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                        formControlName="name"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Image URL</label>
+                    <input type="text" name="imageUrl" id="imageUrl" class="form-control"
+                    formControlName="image"
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <img src="image" class="img-responsive" alt="image-link">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" cols="20" rows="10" class="form-control"
+                        formControlName="description"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>Ingredents</label>
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" name="itemName" id="itemName" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <input type="number" name="itemName" id="itemName" class="form-control">
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm btn-danger">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
