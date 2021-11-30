@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 })
 export class RecipeService {
 
+  public recipeChanged = new Subject<Recipie[]>();
+
   private recipes: Recipie[] = [
     new Recipie("Test Recipie - 1", "Total Timeunder 1 hour One Pot MealYes Recipe CourseMain Course Dietary ConsiderationEgg - free, Gluten - free, Halal, Lactose - free, Peanut Free, Soy Free, Tree Nut Free MealDinner Taste and TextureCreamy, Savory, Spiced    Ingredients : 1) (1¾-pound / 800 - gram) chicken, skinned and cut into 12 pieces¼ cup(50 ml) vegetable oil 2) 1 teaspoon garam masala", "https://www.simplyrecipes.com/thmb/OCi18J2V8OeKDFV3FxoeKvgq74E=/1423x1067/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2012__07__grilled-sweet-potatoes-horiz-a-1600-7c8292daa98e4020b447f0dc97a45cb7.jpg", [
       new Ingredient("Meat", 1),
@@ -37,6 +39,22 @@ export class RecipeService {
   public getRecipe(id : number) {
     id = id < this.recipes.length ? id : this.recipes.length - 1;
     return this.recipes[id];
+  }
+
+  public addRecipe(recipe: Recipie) {
+    this.recipes.push(recipe);
+    this.recipeChanged.next(this.recipes.slice());
+  }
+
+  public updateRecipe(index:number, recipe: Recipie) {
+    this.recipes[index] = recipe;
+    this.recipeChanged.next(this.recipes.slice());
+  }
+
+  public deleteRecipe(index: number) {
+    console.log("delete - {} ", index);
+    this.recipes.splice(index, 1);
+    this.recipeChanged.next(this.recipes.slice());
   }
 
 }
