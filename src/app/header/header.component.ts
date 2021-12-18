@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DataAccessService } from "../shared/data-access.service";
 
 @Component({
   selector: 'app-header',
@@ -7,8 +8,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataAccessService: DataAccessService) { }
 
   ngOnInit(): void {
   }
+
+  saveData() {
+    this.dataAccessService.storeRecipes();
+  }
+
+  getData() {
+    this.dataAccessService.getRecipes();
+  }
+
 }
