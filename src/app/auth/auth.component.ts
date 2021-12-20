@@ -5,6 +5,7 @@ import { AuthService } from "./auth.service";
 import { AuthResponse } from "./auth.service";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +19,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   errorMsg:string  = "";
   parentSub!: Subscription;
   
-  constructor(private authService: AuthService, private router:Router) { }
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
   
   ngOnDestroy(): void {
     if (this.parentSub) this.parentSub.unsubscribe();
@@ -50,11 +51,19 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.parentSub = obj.subscribe(data => {
       console.log(data);
       this.isLoading = false;
+
+      if (this.isLoginMode) {
+        this.toastr.success("User login successfully!!!");
+      } else {
+        this.toastr.success("User signup successfully!!!");
+      }
+
       this.router.navigate(['./recipies'])
     }, (err: any) => {
       console.error("Error - ", err);
       this.isLoading = false;
-      this.errorMsg = "Error occured - " + err;
+      // this.errorMsg = "Error occured - " + err;
+      this.toastr.error("Error: " + err);
     });
 
     form.reset();

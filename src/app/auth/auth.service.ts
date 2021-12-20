@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError, Subject, BehaviorSubject } from 'rxjs';
@@ -20,8 +21,9 @@ export interface AuthResponse {
 export class AuthService {
 
   userSub = new  BehaviorSubject<User>(new User('', '', '', new Date()));
+  private expTimeOut: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
     public signUp (email : string, password:string) {
       const url: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAYtuNBaXk0QsgOjRazqgQqKfxwrE8sU9Y';
@@ -36,6 +38,8 @@ export class AuthService {
           const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
           const user = new User(response.email, response.localId, response.idToken, expDate);
           this.userSub.next(user);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.autLogout(+response.expiresIn * 1000);
         }));
     }
 
@@ -52,7 +56,44 @@ export class AuthService {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
         const user = new User(response.email, response.localId, response.idToken, expDate);
         this.userSub.next(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        this.autLogout(+response.expiresIn * 1000);
       }));
+  }
+
+  logout() {
+    this.userSub.next(new User('', '', '', new Date()));
+    this.router.navigate(['/auth']);
+    localStorage.removeItem('user');
+
+    if (this.expTimeOut) {
+      clearTimeout(this.expTimeOut);
+    }
+    this.expTimeOut = null;
+  }
+
+  autoLogin() {
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      return;
+    }
+
+    const data = JSON.parse(userData);
+    const user = new User(data.email, data.id, data._token, new Date(data._tokenExpriationDate));
+    if (user.token) { 
+      this.userSub.next(user)
+      const time = new Date(data._tokenExpriationDate).getTime() - new Date().getTime();
+      this.autLogout(time);
+    };
+
+  }
+
+  autLogout(time:number) {
+    console.log('Exp time - ', time)
+   this.expTimeOut=
+     setTimeout(() => {
+      this.logout();
+    }, time);
   }
 
   private errorHandling( err : any) {

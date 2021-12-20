@@ -19,9 +19,7 @@ export class DataAccessService {
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
     console.log("storeRecipes - ", recipes)
-    this.authService.userSub.pipe(take(1), exhaustMap(user => {
-      return this.http.put(this.recipeURL + "?auth="+user.token, recipes);
-    }))
+    this.http.put(this.recipeURL, recipes)
     .subscribe(data => {
       console.log(data);
     });
@@ -29,11 +27,7 @@ export class DataAccessService {
 
   getRecipes() {
     let recipes: Recipie[] = [];
-    this.authService.userSub.pipe(take(1), exhaustMap(user => {
-      return this.http.get<Recipie[]>(this.recipeURL, {
-        params : new HttpParams().set('auth', user.token + "")
-      });
-    }), map(recipes => {
+      this.http.get<Recipie[]>(this.recipeURL).pipe(map(recipes => {
       return recipes.map(recipe => {
         return {
           ...recipe,
