@@ -1,27 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RecipesComponent } from "./recipes/recipes.component";
-import { ShoppingsComponent } from "./shoppings/shoppings.component";
-import { RecipeStartComponent } from "./recipes/recipe-start/recipe-start.component";
-import { RecipeDetailsComponent } from "./recipes/recipe-details/recipe-details.component";
-import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from "./auth/auth.component";
-import { AuthGuardService } from "./auth/auth-guard.service";
 
 const routes: Routes = [
   { path: "", redirectTo: "/recipies", pathMatch: "full" },
-  { path: "recipies", component: RecipesComponent, children: [
-    { path: '', component: RecipeStartComponent, pathMatch:"full" },
-    { path: 'new', component: RecipeEditComponent },
-    { path: ':id', component: RecipeDetailsComponent },
-    { path: ':id/edit', component: RecipeEditComponent }
-  ], canActivate: [AuthGuardService] },
-  { path: "shoppings", component: ShoppingsComponent, canActivate: [AuthGuardService] },
+  { path: "recipies", loadChildren: () => import("./recipes/recipe.module").then(m => m.RecipeModule)},
   { path: "auth", component: AuthComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy : PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
