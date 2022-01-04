@@ -3,6 +3,9 @@ import { Recipie } from './../recipe';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RecipeService } from "../recipe.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AddIngredients } from "../../shared/shopping-list.actions";
+import { AppState } from 'src/app/reducers';
 
 
 @Component({
@@ -12,7 +15,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 export class RecipeDetailsComponent implements OnInit {
 
-  constructor(private recipeService: RecipeService, private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private recipeService: RecipeService, private router: Router, private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
   recipe: any;
   id:number = 0;
@@ -32,7 +35,8 @@ export class RecipeDetailsComponent implements OnInit {
 
   addIngredientToShoppingList() {
     if (this.recipe.ingredients.length > 0) {
-      this.recipeService.addIngredientToShoppingList(this.recipe.ingredients)
+      // this.recipeService.addIngredientToShoppingList(this.recipe.ingredients)
+      this.store.dispatch(new AddIngredients(this.recipe.ingredients));
     }
   }
 

@@ -8,7 +8,7 @@ import {
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 
-import { ShoppingListState, shoppingListReducer } from '../shoppings/shopping-list.reducer'
+import { ShoppingListState, shoppingListReducer } from '../shared/shopping-list.reducer'
 
 export const rootReducer = {};
 
