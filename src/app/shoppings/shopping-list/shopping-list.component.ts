@@ -1,8 +1,8 @@
 import { Ingredient } from './../../shared/ingredient.model';
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingListService } from "../shopping-list.service";
-import { from, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ShoppingListState } from '../shopping-list.reducer';
 
 @Component({
@@ -10,15 +10,19 @@ import { ShoppingListState } from '../shopping-list.reducer';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.scss']
 })
-export class ShoppingListComponent implements OnInit {
+export class ShoppingListComponent implements OnInit, OnDestroy {
 
   ingredients: any = [];
-  ingredients$: any;
+  parentSubscription :Subscription = new Subscription();
 
   constructor(private shoppingListService: ShoppingListService, private store: Store<{ 'shoppingList': ShoppingListState}>) { }
+  
+  ngOnDestroy(): void {
+    this.parentSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
-    this.store.select('shoppingList').subscribe((list: ShoppingListState) => {
+    this.parentSubscription = this.store.select('shoppingList').subscribe((list: ShoppingListState) => {
       console.log("data ", list);
       this.ingredients = list.ingredients;
     });
