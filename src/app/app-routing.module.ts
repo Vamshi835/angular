@@ -5,6 +5,7 @@ import { AuthComponent } from "./auth/auth.component";
 const routes: Routes = [
   { path: "", redirectTo: "/recipies", pathMatch: "full" },
   { path: "recipies", loadChildren: () => import("./recipes/recipe.module").then(m => m.RecipeModule)},
+  {path: "shoppings", loadChildren : () => import("./shoppings/shopping.module").then(m => m.ShoppingModule)},
   { path: "auth", component: AuthComponent }
 ];
 

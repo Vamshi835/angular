@@ -14,6 +14,8 @@ import { RecipeModule } from "./recipes/recipe.module";
 import { ShoppingModule } from "./shoppings/shopping.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from "./auth/auth.module";
+import { StoreModule } from "@ngrx/store";
+import { reducers } from "./reducers/index";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { AuthModule } from "./auth/auth.module";
     RecipeModule,
     ShoppingModule,
     AuthModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    StoreModule.forRoot(reducers)
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, AuthGuardService],
   bootstrap: [AppComponent]

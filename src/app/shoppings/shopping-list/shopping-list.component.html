@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <a class="list-group-item" style="color: black;" *ngFor="let s of ingredients; let i=index"
+    <a class="list-group-item" style="color: black;" *ngFor="let s of (ingredients); let i=index"
     (click)="editItem(i)"
     >
         {{s.name}} ( {{s.amount}} )

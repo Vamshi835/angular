@@ -5,7 +5,7 @@ import { ShoppingsComponent } from './shoppings.component';
 
 const routes: Routes = [
 
-    { path: "shoppings", component: ShoppingsComponent, canActivate: [AuthGuardService] }
+    { path: "", component: ShoppingsComponent, canActivate: [AuthGuardService] }
 ]
 
 @NgModule({
