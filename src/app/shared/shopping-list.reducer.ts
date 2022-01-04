@@ -31,18 +31,20 @@ export function shoppingListReducer(state: ShoppingListState = initialState,
                 ingredients: [...state.ingredients, ...action.payload]
             };
         case ShoppingListActions.UPDATE_INGREDIENT:
-            let id: number = action.payload.index;
-            let data: Ingredient = action.payload.ingredient;
             let ingredients = [...state.ingredients]
-            ingredients[id] = data;
+            ingredients[state.editedIngredientIndex] = action.payload;
             return {
                 ...state,
-                ingredients: ingredients
+                ingredients: ingredients,
+                editedIngredient : new Ingredient('', 0),
+                editedIngredientIndex : -1 
             };
         case ShoppingListActions.DELETE_INGREDIENT:
             return {
                 ...state,
-                ingredients: state.ingredients.filter((ig, igIndex) => igIndex !== action.payload)
+                ingredients: state.ingredients.filter((ig, igIndex) => igIndex !== state.editedIngredientIndex),
+                editedIngredient: new Ingredient('', 0),
+                editedIngredientIndex: -1
             };
         case ShoppingListActions.START_EDIT:
             return {

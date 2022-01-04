@@ -79,7 +79,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       // this.shoppingListService.updateIngredients(this.editIndex, data);
-      this.store.dispatch(new UpdateIngredient({index : this.editIndex, ingredient : data}));
+      this.store.dispatch(new UpdateIngredient(data));
     } else
     // this.shoppingListService.addIngredient(data);
       this.store.dispatch(new AddIngredient(data));
@@ -95,7 +95,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   deleteIngredient() {
     // this.shoppingListService.deleteIngredients(this.editIndex);
-    this.store.dispatch(new DeleteIngredient(+this.editIndex));
+    this.store.dispatch(new DeleteIngredient());
     this.clearIngredient(this.form);
   }
 
