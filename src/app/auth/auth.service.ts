@@ -1,10 +1,13 @@
+import { Login, Logout } from './store/auth.actions';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError, Subject, BehaviorSubject } from 'rxjs';
+import { throwError, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 import { environment } from "../../environments/environment.prod";
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
 
 export interface AuthResponse {
   localId:string,
@@ -21,10 +24,10 @@ export interface AuthResponse {
 })
 export class AuthService {
 
-  userSub = new  BehaviorSubject<User>(new User('', '', '', new Date()));
+  // userSub = new  BehaviorSubject<User>(new User('', '', '', new Date()));
   private expTimeOut: any;
 
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private http: HttpClient, private router:Router, private store : Store<AppState>) { }
 
     public signUp (email : string, password:string) {
       const url: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey;
@@ -38,7 +41,8 @@ export class AuthService {
         .pipe(catchError(this.errorHandling), tap(response => {
           const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
           const user = new User(response.email, response.localId, response.idToken, expDate);
-          this.userSub.next(user);
+          this.store.dispatch(new Login(user));
+          // this.userSub.next(user);
           localStorage.setItem('user', JSON.stringify(user));
           this.autLogout(+response.expiresIn * 1000);
         }));
@@ -52,18 +56,22 @@ export class AuthService {
       'returnSecureToken': true
     };
 
-    return this.http.post<AuthResponse>(url, obj)
+    const AuthResponseObj = this.http.post<AuthResponse>(url, obj);
+
+    return AuthResponseObj
       .pipe(catchError(this.errorHandling), tap(response => {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
         const user = new User(response.email, response.localId, response.idToken, expDate);
-        this.userSub.next(user);
+        this.store.dispatch(new Login(user));
+        // this.userSub.next(user);
         localStorage.setItem('user', JSON.stringify(user));
         this.autLogout(+response.expiresIn * 1000);
       }));
   }
 
   logout() {
-    this.userSub.next(new User('', '', '', new Date()));
+    this.store.dispatch(new Logout());
+    // this.userSub.next(new User('', '', '', new Date()));
     this.router.navigate(['/auth']);
     localStorage.removeItem('user');
 
@@ -82,7 +90,8 @@ export class AuthService {
     const data = JSON.parse(userData);
     const user = new User(data.email, data.id, data._token, new Date(data._tokenExpriationDate));
     if (user.token) { 
-      this.userSub.next(user)
+      this.store.dispatch(new Login(user));
+      // this.userSub.next(user)
       const time = new Date(data._tokenExpriationDate).getTime() - new Date().getTime();
       this.autLogout(time);
     };

@@ -1,3 +1,4 @@
+import { LoginStart } from './store/auth.actions';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -6,6 +7,8 @@ import { AuthResponse } from "./auth.service";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { AppState } from '../reducers';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-auth',
@@ -19,13 +22,21 @@ export class AuthComponent implements OnInit, OnDestroy {
   errorMsg:string  = "";
   parentSub!: Subscription;
   
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private store:Store<AppState>) { }
   
   ngOnDestroy(): void {
     if (this.parentSub) this.parentSub.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.store.select('auth').subscribe(authData => {
+      this.isLoading = authData.loading;
+      this.errorMsg = authData.errorMsg;
+
+      if (this.errorMsg !== '') {
+        this.toastr.error("Error: " + this.errorMsg);
+      }
+    });
   }
 
   switchLogin() {
@@ -39,16 +50,18 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
-    let obj :Observable < AuthResponse>;
+    let obj :any;
 
     let values = form.value;
     if (!this.isLoginMode) {
       obj = this.authService.signUp(values.email, values.password);
     } else {
-      obj = this.authService.login(values.email, values.password);
+      // obj = this.authService.login(values.email, values.password);
+      this.store.dispatch(new LoginStart({ email: values.email, password: values.password }));
     }
     
-    this.parentSub = obj.subscribe(data => {
+    /*
+    this.parentSub = obj.subscribe((data : AuthResponse) => {
       console.log(data);
       this.isLoading = false;
 
@@ -65,6 +78,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       // this.errorMsg = "Error occured - " + err;
       this.toastr.error("Error: " + err);
     });
+    */
 
     form.reset();
   }
