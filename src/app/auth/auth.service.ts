@@ -1,4 +1,4 @@
-import { Login, Logout } from './store/auth.actions';
+import { AuthenticateSuccess, Logout } from './store/auth.actions';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -41,7 +41,7 @@ export class AuthService {
         .pipe(catchError(this.errorHandling), tap(response => {
           const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
           const user = new User(response.email, response.localId, response.idToken, expDate);
-          this.store.dispatch(new Login(user));
+          this.store.dispatch(new AuthenticateSuccess(user));
           // this.userSub.next(user);
           localStorage.setItem('user', JSON.stringify(user));
           this.autLogout(+response.expiresIn * 1000);
@@ -62,7 +62,7 @@ export class AuthService {
       .pipe(catchError(this.errorHandling), tap(response => {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
         const user = new User(response.email, response.localId, response.idToken, expDate);
-        this.store.dispatch(new Login(user));
+        this.store.dispatch(new AuthenticateSuccess(user));
         // this.userSub.next(user);
         localStorage.setItem('user', JSON.stringify(user));
         this.autLogout(+response.expiresIn * 1000);
@@ -90,7 +90,7 @@ export class AuthService {
     const data = JSON.parse(userData);
     const user = new User(data.email, data.id, data._token, new Date(data._tokenExpriationDate));
     if (user.token) { 
-      this.store.dispatch(new Login(user));
+      this.store.dispatch(new AuthenticateSuccess(user));
       // this.userSub.next(user)
       const time = new Date(data._tokenExpriationDate).getTime() - new Date().getTime();
       this.autLogout(time);
@@ -104,6 +104,21 @@ export class AuthService {
      setTimeout(() => {
       this.logout();
     }, time);
+  }
+
+  setTimer(time: number) {
+    console.log('Exp time - ', time)
+    this.expTimeOut =
+      setTimeout(() => {
+        this.store.dispatch(new Logout())
+      }, time);
+  }
+
+  clearTimer() {
+    if (this.expTimeOut) {
+      clearTimeout(this.expTimeOut);
+      this.expTimeOut = null;
+    }
   }
 
   private errorHandling( err : any) {

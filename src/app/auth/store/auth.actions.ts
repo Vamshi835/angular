@@ -3,15 +3,18 @@ import { User } from './../user.model';
 
 //Add feature name to create unique action in application
 //Prefered way - '[Feature] ActionType
-export const LOGIN_START = '[Auth] LOGIN_START';
-export const LOGIN_FAIL = '[Auth] LOGIN_FAIL';
-export const LOGIN = '[Auth] LOGIN';
+export const AUTHENTICATE_START = '[Auth] AUTHENTICATE_START';
+export const AUTHENTICATE_FAIL = '[Auth] AUTHENTICATE_FAIL';
+export const AUTHENTICATE_SUCCESS = '[Auth] AUTHENTICATE_SUCCESS';
 export const LOGOUT = '[Auth] LOGOUT';
+export const SIGNUP_START = '[Auth] SIGNUP_START';
 
-export type authActions = Login | Logout | LoginStart | LoginFail;
+export const AUTO_LOGIN = '[Auth] AUTO_LOGIN';
 
-export class Login implements Action {
-    readonly type = LOGIN;
+export type authActions = AuthenticateSuccess | Logout | AuthenticateStart | AuthenticateFail | SignupStart | AutoLogin;
+
+export class AuthenticateSuccess implements Action {
+    readonly type = AUTHENTICATE_SUCCESS;
     constructor(public payload: User) { }
 }
 
@@ -19,12 +22,21 @@ export class Logout implements Action {
     readonly type = LOGOUT;
 }
 
-export class LoginStart implements Action {
-    readonly type = LOGIN_START;
+export class AuthenticateStart implements Action {
+    readonly type = AUTHENTICATE_START;
     constructor(public payload: {email :string, password :string}) { }
 }
 
-export class LoginFail implements Action {
-    readonly type = LOGIN_FAIL;
+export class AuthenticateFail implements Action {
+    readonly type = AUTHENTICATE_FAIL;
     constructor(public payload: string) { }
+}
+
+export class SignupStart implements Action {
+    readonly type = SIGNUP_START;
+    constructor(public payload: { email: string, password: string }) { }
+}
+
+export class AutoLogin implements Action {
+    readonly type = AUTO_LOGIN;
 }

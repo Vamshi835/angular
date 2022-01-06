@@ -6,6 +6,7 @@ import { User } from '../auth/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { map } from 'rxjs/operators';
+import { Logout } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -47,7 +48,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
+    // this.authService.logout();
+    this.store.dispatch(new Logout());
   }
 
 }

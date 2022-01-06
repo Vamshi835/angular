@@ -1,5 +1,8 @@
 import { AuthService } from './auth/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { AppState } from './reducers';
+import { Store } from '@ngrx/store';
+import { AutoLogin } from './auth/store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +13,13 @@ export class AppComponent implements OnInit {
   title = 'food-cart-project';
   loadFeature = 'reciepe';
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService, private store : Store<AppState>) {
     
   }
 
   ngOnInit(): void {
-    this.authService.autoLogin();
+    // this.authService.autoLogin();
+    this.store.dispatch(new AutoLogin());
   }
 
 

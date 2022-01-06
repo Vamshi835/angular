@@ -1,4 +1,4 @@
-import { LoginStart } from './store/auth.actions';
+import { AuthenticateStart, SignupStart } from './store/auth.actions';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -54,10 +54,11 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     let values = form.value;
     if (!this.isLoginMode) {
-      obj = this.authService.signUp(values.email, values.password);
+      // obj = this.authService.signUp(values.email, values.password);
+      this.store.dispatch(new SignupStart({email  : values.email, password : values.password}));
     } else {
       // obj = this.authService.login(values.email, values.password);
-      this.store.dispatch(new LoginStart({ email: values.email, password: values.password }));
+      this.store.dispatch(new AuthenticateStart({ email: values.email, password: values.password }));
     }
     
     /*
