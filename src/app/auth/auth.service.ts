@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { throwError, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 

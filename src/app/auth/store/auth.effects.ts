@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { AUTHENTICATE_SUCCESS, AuthenticateSuccess, AuthenticateFail, AuthenticateStart, AUTHENTICATE_START, SIGNUP_START, SignupStart, LOGOUT, AUTO_LOGIN, Logout } from "./auth.actions";
-import { environment } from "../../../environments/environment.prod";
+import { environment } from "../../../environments/environment";
 import { AuthResponse, AuthService } from "../auth.service";
 import { of } from 'rxjs';
 import { User } from '../user.model';
