@@ -1,3 +1,4 @@
+import { GetRecipies } from './../recipes/store/recipe.actions';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
@@ -44,7 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    this.dataAccessService.getRecipes();
+    // this.dataAccessService.getRecipes();
+    this.store.dispatch(new GetRecipies());
   }
 
   logout() {

@@ -72,8 +72,8 @@ export class AuthService {
   logout() {
     this.store.dispatch(new Logout());
     // this.userSub.next(new User('', '', '', new Date()));
-    this.router.navigate(['/auth']);
-    localStorage.removeItem('user');
+    // this.router.navigate(['/auth']);
+    // localStorage.removeItem('user');
 
     if (this.expTimeOut) {
       clearTimeout(this.expTimeOut);
@@ -110,12 +110,13 @@ export class AuthService {
     console.log('Exp time - ', time)
     this.expTimeOut =
       setTimeout(() => {
+        console.log("Auto Logout - ", time);
         this.store.dispatch(new Logout())
       }, time);
   }
 
   clearTimer() {
-    if (this.expTimeOut) {
+    if (this.expTimeOut && this.expTimeOut != null) {
       clearTimeout(this.expTimeOut);
       this.expTimeOut = null;
     }

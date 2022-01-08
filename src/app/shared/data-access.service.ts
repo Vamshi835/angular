@@ -1,23 +1,37 @@
+import { RecipeState } from './../recipes/store/recipe.reducer';
 import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Recipie } from '../recipes/recipe';
 import { Ingredient } from './ingredient.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { exhaustMap, map, take } from "rxjs/operators";
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataAccessService {
+export class DataAccessService implements OnDestroy {
 
   recipeURL: string = 'https://angular-demo-202e1-default-rtdb.firebaseio.com/recipes.json';
+  recipeSubscription: Subscription | undefined;
 
-  constructor(private http: HttpClient, private recipeService: RecipeService, private authService : AuthService) { }
+  constructor(private http: HttpClient, private recipeService: RecipeService, private authService : AuthService, private store : Store<AppState>) { }
+  
+  ngOnDestroy(): void {
+    if (this.recipeSubscription) {
+      this.recipeSubscription.unsubscribe();
+    }
+  }
   
   storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
+    // const recipes = this.recipeService.getRecipes();
+    let recipes:Recipie[] = [];
+    this.recipeSubscription = this.store.select('recipe').subscribe((data : RecipeState) => {
+      recipes = data.recipes;
+    })
     console.log("storeRecipes - ", recipes)
     this.http.put(this.recipeURL, recipes)
     .subscribe(data => {

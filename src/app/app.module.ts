@@ -1,3 +1,4 @@
+import { RecipeEffects } from './recipes/store/recipe.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,7 +43,7 @@ import { environment } from './../environments/environment';
     AuthModule,
     ToastrModule.forRoot(),
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({logOnly : environment.production})
   ],

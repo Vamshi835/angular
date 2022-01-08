@@ -1,5 +1,5 @@
 import { User } from "../user.model";
-import { authActions, AUTHENTICATE_SUCCESS, AUTHENTICATE_FAIL, AUTHENTICATE_START, LOGOUT, SIGNUP_START } from "./auth.actions";
+import { authActions, AUTHENTICATE_SUCCESS, AUTHENTICATE_FAIL, AUTHENTICATE_START, LOGOUT, SIGNUP_START, AUTO_LOGIN } from "./auth.actions";
 
 export interface AuthState {
     user : User;
@@ -48,7 +48,6 @@ export function authReducer(state : AuthState = intitalState, action : authActio
                 errorMsg: '',
                 loading: false
             };
-        case LOGOUT:
         default:
             return state;
     }

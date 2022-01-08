@@ -1,3 +1,5 @@
+import { AddRecipe, CancelRecipeEdit, UpdateRecipe } from './../store/recipe.actions';
+import { RecipeState } from './../store/recipe.reducer';
 import { Ingredient } from './../../shared/ingredient.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -5,6 +7,8 @@ import { Route, ActivatedRoute, Params, Router } from "@angular/router";
 import { RecipeService } from "../recipe.service";
 import { Recipie } from '../recipe';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -18,7 +22,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   editMode:boolean = false;
   parentSubscription : Subscription = new Subscription();
 
-  constructor(private activatedRoute: ActivatedRoute, private recipeService: RecipeService, private router:Router) {
+  constructor(private activatedRoute: ActivatedRoute, private recipeService: RecipeService, private router:Router, private store : Store<AppState>) {
   }
 
   ngOnDestroy(): void {
@@ -46,7 +50,11 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     );
 
     if (this.editMode) {
-      const recipe = this.recipeService.getRecipe(this.id);
+      // const recipe = this.recipeService.getRecipe(this.id);
+      let recipe : any;
+      this.store.select('recipe').subscribe((data : RecipeState) => {
+        recipe = data.recipes[this.id];
+      });
       recipeName = recipe.name;
       recipeImagePath = recipe.image;
       recipeDescription = recipe.description;
@@ -87,9 +95,11 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     // );
 
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeFormGroup.value);
+      // this.recipeService.updateRecipe(this.id, this.recipeFormGroup.value);
+      this.store.dispatch(new UpdateRecipe({id : this.id, recipe : this.recipeFormGroup.value}));
     } else {
-      this.recipeService.addRecipe(this.recipeFormGroup.value);
+      // this.recipeService.addRecipe(this.recipeFormGroup.value);
+      this.store.dispatch(new AddRecipe(this.recipeFormGroup.value));
     }
   }
 
@@ -103,7 +113,8 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    // this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.store.dispatch(new CancelRecipeEdit());
   }
 
   onDeleteIngredient(index : number) {

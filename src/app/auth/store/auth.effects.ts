@@ -56,14 +56,14 @@ export class AuthEffects {
     @Effect()
     autoLogin = this.actions$.pipe(ofType(AUTO_LOGIN), map(() => {
         const userData = localStorage.getItem('user');
+
         if (!userData) {
-            return new Logout();
+            return;
         }
         const data = JSON.parse(userData);
         const user = new User(data.email, data.id, data._token, new Date(data._tokenExpriationDate));
         if (user.token) {
             const time = new Date().getTime() - new Date(data._tokenExpriationDate).getTime();
-            this.authService.clearTimer();
             this.authService.setTimer(time);
             return new AuthenticateSuccess(user);
         }
@@ -77,7 +77,7 @@ export class AuthEffects {
                 this.authService.setTimer(+data.expiresIn * 1000);
             }),
             map(response => {
-                const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+                const expDate = new Date(new Date().getTime() + (+response.expiresIn * 1000));
                 const user = new User(response.email, response.localId, response.idToken, expDate);
                 localStorage.setItem('user', JSON.stringify(user));
                 return new AuthenticateSuccess(user);
