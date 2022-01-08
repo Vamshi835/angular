@@ -49,7 +49,7 @@ export class AuthEffects {
     @Effect({ dispatch: false })
     logoutSuccess = this.actions$.pipe(ofType(LOGOUT), tap(() => {
         localStorage.removeItem('user');
-        this.authService.clearTimer();
+        // this.authService.clearTimer();
         this.router.navigate(['/auth']);
     }));
 
@@ -64,7 +64,7 @@ export class AuthEffects {
         const user = new User(data.email, data.id, data._token, new Date(data._tokenExpriationDate));
         if (user.token) {
             const time = new Date().getTime() - new Date(data._tokenExpriationDate).getTime();
-            this.authService.setTimer(time);
+            // this.authService.setTimer(time);
             return new AuthenticateSuccess(user);
         }
         return new Logout();
@@ -74,7 +74,7 @@ export class AuthEffects {
     private handleAuthentication(url : string, obj : Object ) {
         return this.http.post<AuthResponse>(url, obj).pipe(
             tap((data) => {
-                this.authService.setTimer(+data.expiresIn * 1000);
+                // this.authService.setTimer(+data.expiresIn * 1000);
             }),
             map(response => {
                 const expDate = new Date(new Date().getTime() + (+response.expiresIn * 1000));

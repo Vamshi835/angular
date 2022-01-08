@@ -97,7 +97,7 @@ export class AuthService {
     };
 
   }
-
+  
   autLogout(time:number) {
     console.log('Exp time - ', time)
    this.expTimeOut=
@@ -106,8 +106,9 @@ export class AuthService {
     }, time);
   }
 
+  
   setTimer(time: number) {
-    console.log('Exp time - ', time)
+    console.log('Exp time : ', time);
     this.expTimeOut =
       setTimeout(() => {
         console.log("Auto Logout - ", time);
@@ -121,7 +122,7 @@ export class AuthService {
       this.expTimeOut = null;
     }
   }
-
+  
   private errorHandling( err : any) {
     let errorMsg = "unknown Error";
     if (!err.error || !err.error.error) {

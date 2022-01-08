@@ -1,3 +1,4 @@
+import { RecipeState } from './../recipes/store/recipe.reducer';
 import { GetRecipies } from './../recipes/store/recipe.actions';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
@@ -30,6 +31,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       user = <User>user;
       this.isAuthenticated = user.token != null && user.token != '' ? true : false;
     });
+
+    // This is used to get the recipes from firebase
+    // this.store.select('recipe').subscribe((data : RecipeState) => {
+    //   if (data.recipes.length === 0) {
+    //     this.store.dispatch(new GetRecipies()); 
+    //   }
+    // });
 
     /*
     this.authUserSub = this.authService.userSub.subscribe(user => {
