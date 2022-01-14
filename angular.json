@@ -175,7 +175,7 @@
             "ssr": false,
             "browserTarget": "food-cart-project:build:production",
             "firebaseProject": "angular-demo-202e1",
-            "firebaseHostingSite": "angular-food-court",
+            "firebaseHostingSite": "angular-demo-202e1",
             "serverTarget": "food-cart-project:server:production",
             "prerenderTarget": "food-cart-project:prerender:production"
           }
