@@ -1,3 +1,4 @@
+import { ShoppingListState } from './shopping-list.reducer';
 import { RecipeState } from './../recipes/store/recipe.reducer';
 import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
@@ -19,13 +20,13 @@ export class DataAccessService implements OnDestroy {
   recipeSubscription: Subscription | undefined;
 
   constructor(private http: HttpClient, private recipeService: RecipeService, private authService : AuthService, private store : Store<AppState>) { }
-  
+
   ngOnDestroy(): void {
     if (this.recipeSubscription) {
       this.recipeSubscription.unsubscribe();
     }
   }
-  
+
   storeRecipes() {
     // const recipes = this.recipeService.getRecipes();
     let recipes:Recipie[] = [];
@@ -34,6 +35,20 @@ export class DataAccessService implements OnDestroy {
     })
     console.log("storeRecipes - ", recipes)
     this.http.put(this.recipeURL, recipes)
+    .subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  storeShoppingList() {
+    // const recipes = this.recipeService.getRecipes();
+    const recipeURL: string = 'https://angular-demo-202e1-default-rtdb.firebaseio.com/ingredients.json'
+    let ingredients:Ingredient[]= [];
+    this.recipeSubscription = this.store.select('shoppingList').subscribe((data :ShoppingListState) => {
+      ingredients = data.ingredients;
+    })
+    console.log("storeIngredients - ", ingredients)
+    this.http.put(recipeURL, ingredients)
     .subscribe(data => {
       console.log(data);
     });

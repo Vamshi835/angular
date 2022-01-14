@@ -9,10 +9,7 @@ export interface ShoppingListState {
 }
 
 const initialState: ShoppingListState = {
-    ingredients: [
-        new Ingredient('Apples', 5),
-        new Ingredient("Tomatoes", 4),
-    ],
+    ingredients: [],
     editedIngredient : new Ingredient('', 0),
     editedIngredientIndex : -1
 };
@@ -37,7 +34,7 @@ export function shoppingListReducer(state: ShoppingListState = initialState,
                 ...state,
                 ingredients: ingredients,
                 editedIngredient : new Ingredient('', 0),
-                editedIngredientIndex : -1 
+                editedIngredientIndex : -1
             };
         case ShoppingListActions.DELETE_INGREDIENT:
             return {
@@ -60,6 +57,10 @@ export function shoppingListReducer(state: ShoppingListState = initialState,
                 editedIngredient: new Ingredient('', 0),
                 editedIngredientIndex: -1
             };
+          case ShoppingListActions.GET_INGREDIENTS :
+            return {
+              ...state
+            }
         default:
             return state;
     }

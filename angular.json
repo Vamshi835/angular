@@ -103,10 +103,10 @@
               "src/styles.scss"
             ],
             "scripts": [
-                "..//food-cart-project/node_modules/jquery/dist/jquery.min.js",
-                "../food-cart-project/node_modules/popper.js/dist/umd/popper.min.js",
-                "../food-cart-project/node_modules/bootstrap/dist/js/bootstrap.min.js"
-              ]
+              "..//food-cart-project/node_modules/jquery/dist/jquery.min.js",
+              "../food-cart-project/node_modules/popper.js/dist/umd/popper.min.js",
+              "../food-cart-project/node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           }
         },
         "server": {
@@ -167,6 +167,18 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": true,
+            "ssr": false,
+            "browserTarget": "food-cart-project:build:production",
+            "firebaseProject": "angular-demo-202e1",
+            "firebaseHostingSite": "angular-food-court",
+            "serverTarget": "food-cart-project:server:production",
+            "prerenderTarget": "food-cart-project:prerender:production"
+          }
         }
       }
     }

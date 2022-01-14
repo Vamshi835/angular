@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-demo-202e1": {
+      "hosting": {
+        "food-cart-project": [
+          "angular-food-court"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-demo-202e1"
+  }
+}

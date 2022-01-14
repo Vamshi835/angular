@@ -1,4 +1,4 @@
-import { StartEdit } from './../../shared/shopping-list.actions';
+import { GetIngredients, StartEdit } from './../../shared/shopping-list.actions';
 import { AppState } from './../../reducers/index';
 import { Ingredient } from './../../shared/ingredient.model';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   parentSubscription :Subscription = new Subscription();
 
   constructor(private shoppingListService: ShoppingListService, private store: Store<AppState>) { }
-  
+
   ngOnDestroy(): void {
     this.parentSubscription.unsubscribe();
   }
@@ -37,7 +37,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
       }
     );
     */
-   
+
   }
 
   editItem(id:number) {
