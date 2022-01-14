@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ofType } from '@ngrx/effects';
-import { tap, switchMap, map } from 'rxjs/operators';
+import { tap, switchMap, map, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, Effect} from '@ngrx/effects';
 import { Injectable } from "@angular/core";
@@ -17,10 +17,11 @@ export class RecipeEffects {
             this.router.navigate(['../'], { relativeTo: this.activatedRoute });
         })
     );
-    
+
     @Effect()
     getRecipies = this.actions$.pipe(
         ofType(GET_RECIPES),
+        take(1),
         switchMap(()=>{
             const recipeURL: string = 'https://angular-demo-202e1-default-rtdb.firebaseio.com/recipes.json';
             return this.http.get<Recipie[]>(recipeURL).pipe(map((recipes: Recipie[]) => {

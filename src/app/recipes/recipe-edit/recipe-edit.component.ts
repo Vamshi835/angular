@@ -40,7 +40,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       (param: Params) => {
         this.id = +param.id;
         this.editMode = true;
-        console.log(this.id);
+        // console.log(this.id);
 
         if (this.id == undefined || isNaN(this.id)) {
           this.editMode = false;
@@ -67,14 +67,14 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
               amount: new FormControl(ingredient.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
             })
          );
-       } 
+       }
       }
 
       console.log(recipe);
     }
 
     // console.log(recipeName, recipeImagePath, recipeDescription);
-    
+
 
     this.recipeFormGroup = new FormGroup({
       name: new FormControl(recipeName, [Validators.required]),
@@ -88,8 +88,8 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log(this.recipeFormGroup);
     // const recipe = new Recipie(
-    //   this.recipeFormGroup.value['name'], 
-    //   this.recipeFormGroup.value['description'], 
+    //   this.recipeFormGroup.value['name'],
+    //   this.recipeFormGroup.value['description'],
     //   this.recipeFormGroup.value['image'],
     //   this.recipeFormGroup.value['ingredients']
     // );

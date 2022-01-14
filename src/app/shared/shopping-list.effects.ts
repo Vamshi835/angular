@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { map, switchMap, tap } from "rxjs/operators";
+import { map, switchMap, take, tap } from "rxjs/operators";
 import { Ingredient } from "./ingredient.model";
 import { AddIngredients, ADD_INGREDIENT, ADD_INGREDIENTS, DELETE_INGREDIENT, GET_INGREDIENTS, UPDATE_INGREDIENT } from "./shopping-list.actions";
 
@@ -13,6 +13,7 @@ export class ShoppingListeffects {
   @Effect()
     getIngredients = this.actions$.pipe(
         ofType(GET_INGREDIENTS),
+        take(1),
         switchMap(()=>{
             const ingredientURL: string = 'https://angular-demo-202e1-default-rtdb.firebaseio.com/ingredients.json';
             return this.http.get<Ingredient[]>(ingredientURL).pipe(map((ingredients: Ingredient[]) => {

@@ -18,7 +18,7 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
   recipeSubscription : Subscription | undefined;
 
   constructor(private recipeService: RecipeService, private store : Store<AppState>) { }
-  
+
   ngOnDestroy(): void {
     if (this.recipeSubscription) {
       this.recipeSubscription.unsubscribe();
@@ -30,8 +30,8 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
       // this.recipe = this.recipeService.getRecipes()[this.id];
       this.recipeSubscription = this.store.select('recipe').subscribe((data : RecipeState) => {
         this.recipe = data.recipes[this.id];
-        console.log("recipe - ", this.recipe);
-        
+        // console.log("recipe - ", this.recipe);
+
       });
     }
   }
