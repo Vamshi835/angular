@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/food-cart-project",
+            "outputPath": "dist/food-cart-project/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -108,6 +108,65 @@
                 "../food-cart-project/node_modules/bootstrap/dist/js/bootstrap.min.js"
               ]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/food-cart-project/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "food-cart-project:build:development",
+              "serverTarget": "food-cart-project:server:development"
+            },
+            "production": {
+              "browserTarget": "food-cart-project:build:production",
+              "serverTarget": "food-cart-project:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "food-cart-project:build:production",
+              "serverTarget": "food-cart-project:server:production"
+            },
+            "development": {
+              "browserTarget": "food-cart-project:build:development",
+              "serverTarget": "food-cart-project:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
