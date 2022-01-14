@@ -33,10 +33,10 @@ export class DataAccessService implements OnDestroy {
     this.recipeSubscription = this.store.select('recipe').subscribe((data : RecipeState) => {
       recipes = data.recipes;
     })
-    console.log("storeRecipes - ", recipes)
+    // console.log("storeRecipes - ", recipes)
     this.http.put(this.recipeURL, recipes)
     .subscribe(data => {
-      console.log(data);
+      // console.log(data);
     });
   }
 
@@ -47,10 +47,10 @@ export class DataAccessService implements OnDestroy {
     this.recipeSubscription = this.store.select('shoppingList').subscribe((data :ShoppingListState) => {
       ingredients = data.ingredients;
     })
-    console.log("storeIngredients - ", ingredients)
+    // console.log("storeIngredients - ", ingredients)
     this.http.put(recipeURL, ingredients)
     .subscribe(data => {
-      console.log(data);
+      // console.log(data);
     });
   }
 

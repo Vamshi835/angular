@@ -86,7 +86,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.recipeFormGroup);
+    // console.log(this.recipeFormGroup);
     // const recipe = new Recipie(
     //   this.recipeFormGroup.value['name'],
     //   this.recipeFormGroup.value['description'],
@@ -118,7 +118,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   onDeleteIngredient(index : number) {
-    console.log("List - ", index);
+    // console.log("List - ", index);
     (<FormArray>this.recipeFormGroup.get('ingredients')).removeAt(index);
   }
 
